@@ -10,7 +10,6 @@ var request = require('request'),
 describe('Image Service Server TEST', function () {
 
 
-
     it('returns scaled image', function (done) {
         var imgUrl = base_url + 'images/testImage1.jpeg?w=200ex&h=300';
         var options = url.parse(imgUrl);
@@ -34,15 +33,15 @@ describe('Image Service Server TEST', function () {
         });
     });
 
+
     it('returns statistics', function (done) {
         request.get(base_url + 'statistics', function (error, response, body) {
 
-            if (typeof JSON.parse(body).callsNo > 0){
+            if (typeof JSON.parse(body).callsNo > 0) {
                 done();
-            }else{
+            } else {
                 assert.fail(1, 2, 'The', '>');
             }
-
 
 
         });

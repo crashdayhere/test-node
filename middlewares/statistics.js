@@ -38,7 +38,6 @@ module.exports = function () {
                     break;
 
                 case 'statistics':
-                    console.log(settings);
                     res.send(settings);
                     next();
                     break;
@@ -85,12 +84,12 @@ module.exports = function () {
 
                     //endregion
 
-                    console.log('./cache/imager/images|' + imageName + '/' + fileParams);
+
                     if (fs.existsSync('./cache/imager/images|' + imageName + '/' + fileParams)) {
                         settings.cacheHit += 1;
                     }
 
-
+                    //region promises
                     var promiseOriginal = new Promise(function (resolve, reject) {
 
                         countFiles('./public/images', function (err, results) {
@@ -116,15 +115,16 @@ module.exports = function () {
 
 
                     var promiseCacheSize = new Promise(function (resolve, reject) {
-                        getSize('./cache/imager', function(err, size) {
-                            if (err) { reject(err); }
-                            console.log((size / 1024).toFixed(2) + ' Kb');
+                        getSize('./cache/imager', function (err, size) {
+                            if (err) {
+                                reject(err);
+                            }
+
                             settings.cacheSize = (size / 1024).toFixed(2) + ' Kb';
                             resolve(res);
                         });
                     });
-
-
+                    //endregion
 
                     Promise.all([promiseOriginal, promiseCache, promiseCacheSize])
                         .then(function (res) {
