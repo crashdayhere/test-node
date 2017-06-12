@@ -25,7 +25,7 @@ describe('Image Service Server TEST', function () {
 
                 var imageChecks = false;
 
-                if (size.width = 201 && size.height == 209) {
+                if (size.width = 200 && size.height == 209) {
                     imageChecks = true
                 }
                 assert.fail(1, 2, 'Resized image does not match', '>');
@@ -34,6 +34,21 @@ describe('Image Service Server TEST', function () {
         });
     });
 
+    it('returns statistics', function (done) {
+        request.get(base_url + 'statistics', function (error, response, body) {
+
+            if (typeof JSON.parse(body).callsNo > 0){
+                done();
+            }else{
+                assert.fail(1, 2, 'The', '>');
+            }
+
+
+
+        });
+    });
+
+
     it('returns status code 404 on index', function (done) {
         request.get(base_url, function (error, response, body) {
             assert.equal(404, response.statusCode);
@@ -41,11 +56,5 @@ describe('Image Service Server TEST', function () {
         });
     });
 
-    it('returns statistics', function (done) {
-        request.get(base_url + 'statistics', function (error, response, body) {
-            assert.equal(404, response.statusCode);
-            done();
-        });
-    });
 
 });
